@@ -5,7 +5,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { progressPercent, reachedMilestone } from "../src/lib/milestones";
 
-const DEMO_EMAIL = process.env.SEED_DEMO_EMAIL ?? "demo@financeplanner.dev";
+const DEMO_EMAIL = process.env.SEED_DEMO_EMAIL ?? "demo@example.com";
 const DEMO_PASSWORD = process.env.SEED_DEMO_PASSWORD ?? "Demo@2026Planner";
 const DEMO_NAME = "Người dùng demo";
 

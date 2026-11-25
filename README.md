@@ -4,9 +4,9 @@
 
 | | |
 |---|---|
-| **Production (Vercel)** | `https://<TÊN-PROJECT>.vercel.app` ← *điền link thật sau khi deploy* |
-| **GitHub** | `https://github.com/<TÀI-KHOẢN>/<TÊN-REPO>` ← *điền link thật* |
-| **Tài khoản demo** | Email: `demo@financeplanner.dev` · Mật khẩu: `Demo@2026Planner` *(tạo bằng `npx prisma db seed`, xem bên dưới)* |
+| **Production (Vercel)** | https://finance-planner-tan-seven.vercel.app |
+| **GitHub** | https://github.com/hanzo-x/finance-planner |
+| **Tài khoản demo** | Email: `demo@example.com` · Mật khẩu: `Demo@2026Planner` *(tạo bằng `npx prisma db seed`, xem bên dưới)* |
 | **Nhật ký dùng AI** | [AI_LOG.md](./AI_LOG.md) |
 
 ## Ảnh chụp màn hình
