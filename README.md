@@ -147,6 +147,23 @@ Các file báo cáo là HTML: tải về rồi mở bằng trình duyệt để 
 | Prisma Client khởi tạo "lười" (`src/lib/prisma.ts`) | `next build` không cần có `DATABASE_URL`; dev không tạo thừa kết nối khi hot reload. |
 | Không dùng `dangerouslySetInnerHTML` | Theo quy ước bảo mật trong `AGENTS.md`; shadcn Chart gốc dùng nó để chèn style nên đã viết lại bằng CSS variable trên thuộc tính `style`. |
 
+## Giới hạn đã biết
+
+Đây là giới hạn của các tính năng đã làm xong. Chỗ nào có unit test thì mình ghi kèm.
+
+- **Danh sách giao dịch:** trang Giao dịch hiển thị tối đa 500 giao dịch mới nhất khớp bộ lọc. Muốn xem giao dịch cũ hơn thì thu hẹp bộ lọc theo tháng, loại hoặc danh mục.
+- **Nhập CSV:** mỗi lần nhập tối đa 1.000 dòng và 1 MB, vượt quá thì bị từ chối (có test cho giới hạn số dòng).
+- **Giao dịch định kỳ:**
+  - Không có tiến trình chạy ngầm, khoản định kỳ chỉ được ghi khi có người mở trang trong app. Mở lại sau nhiều tháng thì app ghi bù các tháng thiếu, tối đa 120 lần mỗi lần mở.
+  - Ngày 29–31 ở tháng ngắn thì lùi về ngày cuối tháng (ví dụ ngày 31 thành ngày 28 hoặc 29 của tháng 2).
+  - Mỗi người tạo tối đa 30 khoản. Ngày bắt đầu phải nằm trong khoảng từ 2 năm trước đến 1 năm sau hôm nay.
+  - Sửa một khoản định kỳ chỉ áp dụng cho các lần ghi sau, giao dịch đã ghi giữ nguyên. Không sửa được ngày trong tháng và ngày bắt đầu, muốn đổi thì tạo khoản mới.
+- **Ngân sách:** mỗi danh mục chỉ có một mức ngân sách. Cảnh báo 80% và 100% chỉ hiện khi thêm một khoản chi trong tháng hiện tại bằng form. Sửa giao dịch, nhập CSV hay giao dịch định kỳ không bật cảnh báo, nhưng thanh ngân sách ở trang Ngân sách vẫn tính đủ.
+- **Dự báo "bao giờ đủ tiền":** là ước tính tuyến tính theo mức để dành trung bình mỗi ngày trong 30–90 ngày gần nhất, không phải cam kết. Nếu gần đây thu chưa vượt chi thì không dự báo được, và nếu cần hơn 10 năm thì chỉ báo "hơn 10 năm" (có test cho từng trường hợp).
+- **Ngày giờ:** giao dịch chỉ lưu ngày, không lưu giờ. "Hôm nay" và "tháng này" tính theo giờ Việt Nam (UTC+7), có test cho trường hợp sát nửa đêm và lúc giao tháng.
+- **Dữ liệu demo:** `npx prisma db seed` xoá tài khoản demo cũ cùng toàn bộ dữ liệu của nó rồi tạo lại. Nếu `DATABASE_URL` đang trỏ vào database của bản đã deploy thì dữ liệu demo trên bản đó cũng bị đặt lại.
+- **Thành phần giao diện:** các file trong `src/components/ui/` được viết tay theo phong cách shadcn/ui, không tạo bằng lệnh `npx shadcn@latest add`.
+
 ## Cấu trúc thư mục
 
 ```
