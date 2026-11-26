@@ -58,7 +58,7 @@ npx prisma db seed                  # tạo tài khoản demo + ~45 giao dịch 
 npm run dev                         # mở http://localhost:3000
 ```
 
-Các bảng được tạo bằng `npx prisma migrate deploy` (áp dụng đúng các file trong `prisma/migrations/`). Hai file này được viết tay nên nếu dùng `npx prisma migrate dev` có thể gặp báo lệch (drift), xem mục *Giới hạn đã biết*.
+Các bảng được tạo bằng `npx prisma migrate deploy` (áp dụng đúng các file trong `prisma/migrations/`). Hai file này được viết tay nên nếu dùng `npx prisma migrate dev` có thể gặp báo lệch (drift); khi đó hãy để Prisma tạo migration mới.
 
 ### Biến môi trường
 
@@ -146,17 +146,6 @@ Các file báo cáo là HTML: tải về rồi mở bằng trình duyệt để 
 | `<select>` gốc của trình duyệt thay cho Radix Select | Dùng bàn phím/trình đọc màn hình/điện thoại tốt sẵn, gửi cùng `<form>` không cần code thêm. |
 | Prisma Client khởi tạo "lười" (`src/lib/prisma.ts`) | `next build` không cần có `DATABASE_URL`; dev không tạo thừa kết nối khi hot reload. |
 | Không dùng `dangerouslySetInnerHTML` | Theo quy ước bảo mật trong `AGENTS.md`; shadcn Chart gốc dùng nó để chèn style nên đã viết lại bằng CSS variable trên thuộc tính `style`. |
-
-## Giới hạn đã biết
-
-- Chưa có xác minh email, quên mật khẩu, đổi mật khẩu.
-- Trang Giao dịch hiển thị tối đa 500 giao dịch mới nhất (chưa phân trang); dùng bộ lọc để thu hẹp.
-- Các tệp trong `src/components/ui/` được viết tay theo phong cách shadcn/ui vì môi trường tạo dự án không tải được registry của shadcn. Muốn thay bằng bản chính thức thì chạy `npx shadcn@latest init` (tạo `components.json`) rồi `npx shadcn@latest add <component>`.
-- Hai file migration (`20261125000000_init`, `20261126000000_recurring_transactions`) được viết tay theo đúng schema và đã chạy thử trên PostgreSQL 16; hãy dùng `npx prisma migrate deploy` để áp dụng. Nếu sau này dùng `npx prisma migrate dev` mà báo lệch (drift), hãy để Prisma tạo migration mới.
-- Giao dịch định kỳ chỉ được ghi khi có người mở trang (không có tiến trình chạy ngầm); sửa khoản định kỳ chỉ áp dụng cho các lần ghi sau, và không sửa được ngày trong tháng / ngày bắt đầu (muốn đổi thì tạm dừng rồi tạo khoản mới). Dự báo "bao giờ đủ tiền" chỉ là ước tính tuyến tính từ thói quen gần đây, không phải cam kết.
-- Toàn bộ ảnh minh hoạ (`hero.png`, `og.png`, icon và 12 ảnh trong `public/images/`: `feature-*`, `auth-side`, `not-found`, `empty-*`, `step-*`) do Gemini tạo, đã khai báo trong `AI_LOG.md`; prompt tạo ảnh do sinh viên lưu riêng, không đưa vào repo.
-- `npm audit` báo 3 lỗ hổng mức cao trong gói `effect` đi kèm Prisma CLI (công cụ dòng lệnh, không chạy trong ứng dụng khi hoạt động). Chưa xử lý.
-- Chưa đo Lighthouse ở chế độ Mobile, chưa có Playwright E2E.
 
 ## Cấu trúc thư mục
 
