@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Plus } from "lucide-react";
+import { TransactionFormDialog } from "@/components/transaction-form-dialog";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { requireUser } from "@/lib/dal";
@@ -26,6 +30,11 @@ export default async function DashboardPage() {
           <h1 className="text-2xl font-bold tracking-tight">Tổng quan</h1>
           <p className="text-sm text-muted-foreground">Xin chào {user.name}, đây là tình hình tài chính của bạn.</p>
         </div>
+        <TransactionFormDialog>
+          <Button>
+            <Plus aria-hidden="true" /> Thêm giao dịch
+          </Button>
+        </TransactionFormDialog>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -88,6 +97,9 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader className="flex-row items-center justify-between">
             <CardTitle>Giao dịch gần đây</CardTitle>
+            <Link href="/transactions" className="text-sm font-medium text-primary underline-offset-4 hover:underline">
+              Xem tất cả
+            </Link>
           </CardHeader>
           <CardContent>
             {hasData ? (

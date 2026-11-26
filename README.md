@@ -1,8 +1,8 @@
-# Finance Planner – mốc fp1
+# Finance Planner – mốc fp2
 
-Nội dung của mốc này: schema Prisma + migration + seed (45 giao dịch mẫu) + trang Tổng quan chỉ đọc, kết nối PostgreSQL (Neon).
+Nội dung của mốc này: thêm, sửa, xoá giao dịch có kiểm tra bằng Zod (phía server), bộ lọc theo tháng / loại / danh mục lưu trên URL, và bộ unit test đầu tiên (`npx vitest run`).
 
-Chưa có đăng nhập: app đọc dữ liệu của tài khoản mẫu do seed tạo (email trong `SEED_DEMO_EMAIL`).
+Chưa có đăng nhập: app vẫn đọc dữ liệu của tài khoản mẫu do seed tạo.
 
 ## Chạy thử
 

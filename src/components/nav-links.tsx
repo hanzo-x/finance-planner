@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "/dashboard", label: "Tổng quan" },
+  { href: "/transactions", label: "Giao dịch" },
 ];
 
 export function NavLinks() {

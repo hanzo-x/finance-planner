@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      # Giá trị giả chỉ để build/test chạy được. Không có bí mật thật nào ở đây.
+      DATABASE_URL: postgresql://user:password@localhost:5432/ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Cài thư viện (tự chạy prisma generate qua postinstall)
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit test + component test
+        run: npx vitest run
+
+      - name: Build
+        run: npm run build
