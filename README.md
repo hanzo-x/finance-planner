@@ -11,11 +11,27 @@
 
 ## Ảnh chụp màn hình
 
-> Chụp từ bản production rồi bỏ vào thư mục `docs/screenshots/`: `dashboard.png` (trang `/dashboard`), `transactions.png` (`/transactions`, có bộ lọc), `wishlist.png` (`/wishlist`, có thanh tiến độ), `budgets.png` (`/budgets`), `recurring.png` (`/recurring`, có vài khoản định kỳ).
+Ảnh chụp bằng tài khoản demo với dữ liệu mẫu (45 giao dịch, 3 khoản định kỳ, 4 món wishlist, 5 ngân sách) do `prisma db seed` tạo ra.
 
-| Tổng quan | Giao dịch | Wishlist | Ngân sách | Định kỳ |
-|---|---|---|---|---|
-| ![Tổng quan](docs/screenshots/dashboard.png) | ![Giao dịch](docs/screenshots/transactions.png) | ![Wishlist](docs/screenshots/wishlist.png) | ![Ngân sách](docs/screenshots/budgets.png) | ![Định kỳ](docs/screenshots/recurring.png) |
+**Tổng quan** (`/dashboard`)
+
+![Tổng quan](docs/screenshots/dashboard.png)
+
+**Giao dịch** (`/transactions`, có bộ lọc)
+
+![Giao dịch](docs/screenshots/transactions.png)
+
+**Wishlist** (`/wishlist`, có thanh tiến độ)
+
+![Wishlist](docs/screenshots/wishlist.png)
+
+**Ngân sách** (`/budgets`)
+
+![Ngân sách](docs/screenshots/budgets.png)
+
+**Giao dịch định kỳ** (`/recurring`)
+
+![Định kỳ](docs/screenshots/recurring.png)
 
 ## Công nghệ
 
@@ -42,6 +58,8 @@ npx prisma db seed                  # tạo tài khoản demo + ~45 giao dịch 
 npm run dev                         # mở http://localhost:3000
 ```
 
+Đề môn học ghi `npx prisma migrate dev`; repo này dùng `npx prisma migrate deploy` vì hai file migration được viết tay (xem mục *Giới hạn đã biết*).
+
 ### Biến môi trường
 
 | Biến | Dùng để |
@@ -52,6 +70,8 @@ npm run dev                         # mở http://localhost:3000
 | `BETTER_AUTH_URL` | Địa chỉ gốc của web (local: `http://localhost:3000`) |
 | `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` | Đăng nhập bằng GitHub (tạo OAuth App trên GitHub) |
 | `SEED_DEMO_EMAIL`, `SEED_DEMO_PASSWORD` | (Tuỳ chọn) đổi tài khoản demo do seed tạo |
+
+**Đăng nhập GitHub:** tạo OAuth App tại https://github.com/settings/developers, đặt *Homepage URL* = giá trị `BETTER_AUTH_URL` và *Redirect URI* = `<BETTER_AUTH_URL>/api/auth/callback/github` (local: `http://localhost:3000/api/auth/callback/github`), rồi điền Client ID và Client secret vào `.env`. Trên Vercel, thêm hai biến này trong *Settings → Environment Variables* rồi Redeploy.
 
 Không bao giờ commit file `.env`. Chỉ `.env.example` (không chứa bí mật thật) được đưa lên GitHub.
 
@@ -64,12 +84,14 @@ npx vitest run          # 151 test: logic, validate, CSV, định kỳ, dự bá
 npm run build
 ```
 
+E2E bằng Playwright (`npx playwright test`): chưa có, xem *Checklist tính năng* bên dưới.
+
 ## Checklist tính năng
 
 **Tính năng cốt lõi**
 
 - ✅ Đăng ký / đăng nhập bằng email + mật khẩu (Better Auth), hiện tên người dùng, đăng xuất
-- ⚠️ Đăng nhập bằng GitHub: code đã có, nút tự tắt nếu chưa cấu hình. *Cập nhật thành ✅ sau khi bạn tự thử đăng nhập GitHub thật trên production.*
+- ✅ Đăng nhập bằng GitHub (OAuth): nút tự tắt nếu chưa có `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`; đã thử đăng nhập thật trên production
 - ✅ Mọi dữ liệu thuộc về một người dùng; kiểm tra phía server ở từng page, Server Action, Route Handler
 - ✅ CRUD giao dịch (số tiền VND nguyên dương, mô tả 1–120 ký tự, loại, 8 danh mục, ngày)
 - ✅ Validate bằng Zod phía server, lỗi hiện dưới từng ô, toast thành công/thất bại
