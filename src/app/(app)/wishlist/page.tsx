@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { DeleteDialog } from "@/components/delete-dialog";
 import { EmptyState } from "@/components/empty-state";
+import { PageThumb } from "@/components/page-thumb";
 import { SavingsProgress } from "@/components/savings-progress";
 import { WishlistFormDialog } from "@/components/wishlist-form-dialog";
 import { Badge } from "@/components/ui/badge";
@@ -30,12 +31,15 @@ export default async function WishlistPage() {
   return (
     <div className="grid gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Wishlist</h1>
-          <p className="text-sm text-muted-foreground">
-            Tiến độ tính theo số dư hiện tại của bạn:{" "}
-            <strong className="font-semibold text-foreground tabular-nums">{formatVnd(totals.balance)}</strong>
-          </p>
+        <div className="flex items-center gap-3">
+          <PageThumb src="/images/feature-wishlist.png" />
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Wishlist</h1>
+            <p className="text-sm text-muted-foreground">
+              Tiến độ tính theo số dư hiện tại của bạn:{" "}
+              <strong className="font-semibold text-foreground tabular-nums">{formatVnd(totals.balance)}</strong>
+            </p>
+          </div>
         </div>
         <WishlistFormDialog>
           <Button>

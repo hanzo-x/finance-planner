@@ -5,6 +5,7 @@ import { BudgetMeter } from "@/components/budget-meter";
 import { EmptyState } from "@/components/empty-state";
 import { ExpensePieChart } from "@/components/expense-pie-chart";
 import { MonthInsights } from "@/components/month-insights";
+import { PageThumb } from "@/components/page-thumb";
 import { SavingsProgress } from "@/components/savings-progress";
 import { TransactionFormDialog } from "@/components/transaction-form-dialog";
 import { TrendChart } from "@/components/trend-chart";
@@ -79,9 +80,12 @@ export default async function DashboardPage() {
   return (
     <div className="grid gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Tổng quan</h1>
-          <p className="text-sm text-muted-foreground">Xin chào {user.name}, đây là tình hình tài chính của bạn.</p>
+        <div className="flex items-center gap-3">
+          <PageThumb src="/images/feature-chart.png" />
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Tổng quan</h1>
+            <p className="text-sm text-muted-foreground">Xin chào {user.name}, đây là tình hình tài chính của bạn.</p>
+          </div>
         </div>
         <TransactionFormDialog>
           <Button>

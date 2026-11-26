@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { TriangleAlert } from "lucide-react";
 import { BudgetEditor } from "@/components/budget-editor";
+import { PageThumb } from "@/components/page-thumb";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { requireUser } from "@/lib/dal";
 import { getBudgetRows } from "@/lib/queries";
@@ -16,11 +17,14 @@ export default async function BudgetsPage() {
 
   return (
     <div className="grid gap-5">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Ngân sách theo danh mục</h1>
-        <p className="text-sm text-muted-foreground">
-          Đặt hạn mức chi mỗi tháng cho từng danh mục. Bạn sẽ được cảnh báo khi dùng hơn 80% và khi vượt 100%.
-        </p>
+      <div className="flex items-center gap-3">
+        <PageThumb src="/images/hero.png" />
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Ngân sách theo danh mục</h1>
+          <p className="text-sm text-muted-foreground">
+            Đặt hạn mức chi mỗi tháng cho từng danh mục. Bạn sẽ được cảnh báo khi dùng hơn 80% và khi vượt 100%.
+          </p>
+        </div>
       </div>
 
       {alerts.length > 0 ? (

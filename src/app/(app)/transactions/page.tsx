@@ -3,6 +3,7 @@ import { Pencil, Plus, Trash2 } from "lucide-react";
 import { CsvTools } from "@/components/csv-tools";
 import { DeleteDialog } from "@/components/delete-dialog";
 import { EmptyState } from "@/components/empty-state";
+import { PageThumb } from "@/components/page-thumb";
 import { TransactionFilters } from "@/components/transaction-filters";
 import { TransactionFormDialog, type TransactionDTO } from "@/components/transaction-form-dialog";
 import { Badge } from "@/components/ui/badge";
@@ -39,11 +40,14 @@ export default async function TransactionsPage({ searchParams }: PageProps<"/tra
   return (
     <div className="grid gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Giao dịch</h1>
-          <p className="text-sm text-muted-foreground">
-            {transactions.length} giao dịch khớp bộ lọc
-          </p>
+        <div className="flex items-center gap-3">
+          <PageThumb src="/images/feature-transactions.png" />
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Giao dịch</h1>
+            <p className="text-sm text-muted-foreground">
+              {transactions.length} giao dịch khớp bộ lọc
+            </p>
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <CsvTools exportQuery={exportQuery} />

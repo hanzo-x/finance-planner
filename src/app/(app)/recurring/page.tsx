@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { DeleteDialog } from "@/components/delete-dialog";
 import { EmptyState } from "@/components/empty-state";
+import { PageThumb } from "@/components/page-thumb";
 import { RecurringFormDialog, type RecurringDTO } from "@/components/recurring-form-dialog";
 import { RecurringToggleButton } from "@/components/recurring-toggle-button";
 import { Badge } from "@/components/ui/badge";
@@ -30,11 +31,14 @@ export default async function RecurringPage() {
   return (
     <div className="grid gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Giao dịch định kỳ</h1>
-          <p className="text-sm text-muted-foreground">
-            Lương, tiền trọ, internet... Khai báo một lần, app tự ghi giao dịch vào đúng ngày mỗi tháng.
-          </p>
+        <div className="flex items-center gap-3">
+          <PageThumb src="/images/step-2-record.png" />
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Giao dịch định kỳ</h1>
+            <p className="text-sm text-muted-foreground">
+              Lương, tiền trọ, internet... Khai báo một lần, app tự ghi giao dịch vào đúng ngày mỗi tháng.
+            </p>
+          </div>
         </div>
         <RecurringFormDialog>
           <Button>
