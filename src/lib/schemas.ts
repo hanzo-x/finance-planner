@@ -63,6 +63,30 @@ export const idSchema = z.object({
   id: z.string({ error: "Thiếu mã bản ghi" }).min(1, { error: "Thiếu mã bản ghi" }),
 });
 
+const emailField = z
+  .string({ error: "Nhập email" })
+  .trim()
+  .toLowerCase()
+  .pipe(z.email({ error: "Email không hợp lệ" }));
+
+export const signUpSchema = z.object({
+  name: z
+    .string({ error: "Nhập tên hiển thị" })
+    .trim()
+    .min(2, { error: "Tên tối thiểu 2 ký tự" })
+    .max(50, { error: "Tên tối đa 50 ký tự" }),
+  email: emailField,
+  password: z
+    .string({ error: "Nhập mật khẩu" })
+    .min(8, { error: "Mật khẩu tối thiểu 8 ký tự" })
+    .max(128, { error: "Mật khẩu tối đa 128 ký tự" }),
+});
+
+export const signInSchema = z.object({
+  email: emailField,
+  password: z.string({ error: "Nhập mật khẩu" }).min(1, { error: "Nhập mật khẩu" }),
+});
+
 export type Filters = {
   period: Period;
   category?: CategoryKey;

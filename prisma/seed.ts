@@ -1,9 +1,11 @@
 import "dotenv/config";
-import { randomUUID } from "node:crypto";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "../src/generated/prisma/client";
 
 const DEMO_EMAIL = process.env.SEED_DEMO_EMAIL ?? "demo@example.com";
+const DEMO_PASSWORD = process.env.SEED_DEMO_PASSWORD ?? "Demo@2026Planner";
 const DEMO_NAME = "Người dùng demo";
 
 type Template = {
@@ -82,10 +84,17 @@ async function main() {
   if (!connectionString) throw new Error("Thiếu DATABASE_URL (xem .env.example)");
   const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString }) });
 
+  const seedAuth = betterAuth({
+    database: prismaAdapter(prisma, { provider: "postgresql" }),
+    emailAndPassword: { enabled: true },
+    secret: process.env.BETTER_AUTH_SECRET ?? "seed-only-secret-seed-only-secret-0123456789",
+    baseURL: process.env.BETTER_AUTH_URL ?? "http://localhost:3000",
+  });
+
   await prisma.user.deleteMany({ where: { email: DEMO_EMAIL } });
 
-  const user = await prisma.user.create({
-    data: { id: randomUUID(), name: DEMO_NAME, email: DEMO_EMAIL },
+  const { user } = await seedAuth.api.signUpEmail({
+    body: { name: DEMO_NAME, email: DEMO_EMAIL, password: DEMO_PASSWORD },
   });
 
   const transactions = buildTransactions(user.id);

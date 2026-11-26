@@ -1,14 +1,14 @@
-# Finance Planner – mốc fp2
+# Finance Planner – mốc fp3
 
-Nội dung của mốc này: thêm, sửa, xoá giao dịch có kiểm tra bằng Zod (phía server), bộ lọc theo tháng / loại / danh mục lưu trên URL, và bộ unit test đầu tiên (`npx vitest run`).
+Nội dung của mốc này: đăng nhập bằng email + mật khẩu và GitHub (Better Auth), `requireUser()` ở mọi trang, Server Action và Route Handler, mọi truy vấn lọc theo `userId` của session.
 
-Chưa có đăng nhập: app vẫn đọc dữ liệu của tài khoản mẫu do seed tạo.
+Tài khoản demo do seed tạo: `demo@example.com` / `Demo@2026Planner`.
 
 ## Chạy thử
 
 ```bash
 npm ci
-cp .env.example .env     # điền DATABASE_URL, DIRECT_URL
+cp .env.example .env     # điền DATABASE_URL, DIRECT_URL, BETTER_AUTH_SECRET, BETTER_AUTH_URL
 npx prisma migrate deploy
 npx prisma db seed
 npm run dev

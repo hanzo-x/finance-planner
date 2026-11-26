@@ -11,6 +11,8 @@ jobs:
     env:
       # Giá trị giả chỉ để build/test chạy được. Không có bí mật thật nào ở đây.
       DATABASE_URL: postgresql://user:password@localhost:5432/ci
+      BETTER_AUTH_SECRET: ci-only-secret-ci-only-secret-0123456789
+      BETTER_AUTH_URL: http://localhost:3000
     steps:
       - uses: actions/checkout@v4
 

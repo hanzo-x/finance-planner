@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { signOutAction } from "@/app/actions/auth";
 import { Logo } from "@/components/logo";
 import { NavLinks } from "@/components/nav-links";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
 import { requireUser } from "@/lib/dal";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -25,6 +27,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
               Xin chào, <strong className="font-semibold text-foreground">{user.name}</strong>
             </span>
             <ThemeToggle />
+            <form action={signOutAction}>
+              <Button type="submit" variant="outline" size="sm">
+                Đăng xuất
+              </Button>
+            </form>
           </div>
         </div>
         <div className="mx-auto max-w-6xl px-4 pb-2">

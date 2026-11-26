@@ -3,6 +3,7 @@ import * as z from "zod";
 import {
   formDataToObject,
   parseFilters,
+  signUpSchema,
   transactionSchema,
 } from "./schemas";
 
@@ -65,6 +66,19 @@ describe("transactionSchema", () => {
     const { description: _omit, ...withoutDescription } = validTransaction;
     void _omit;
     expect(errorsOf(transactionSchema, withoutDescription).description).toBeDefined();
+  });
+});
+
+describe("signUpSchema", () => {
+  it("email sai và mật khẩu ngắn bị từ chối", () => {
+    const errors = errorsOf(signUpSchema, { name: "An", email: "khong-phai-email", password: "123" });
+    expect(errors.email).toBeDefined();
+    expect(errors.password).toBeDefined();
+  });
+
+  it("chuẩn hoá email về chữ thường", () => {
+    const result = signUpSchema.safeParse({ name: "An", email: " AN@Example.com ", password: "12345678" });
+    expect(result.success && result.data.email).toBe("an@example.com");
   });
 });
 

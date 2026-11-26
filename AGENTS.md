@@ -32,6 +32,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Tóm tắt thay đổi ngắn gọn để sinh viên ghi vào AI_LOG.md.
 
 ### Ghi chú riêng của dự án
+- Route Handler không có `requireUser()` (vì nó chuyển hướng, không trả JSON) nên dùng `getCurrentUser()` rồi tự trả 401.
 - Tiền VND luôn là số nguyên (Int). Ngày giao dịch lưu 00:00 UTC của ngày đó (xem `src/lib/dates.ts`).
 - Logic nghiệp vụ (lọc ngày, tổng thu/chi, số dư) là hàm thuần trong `src/lib/` và có unit test cạnh file.
 - Migration viết tay: không sửa file migration đã có; thay đổi database = thêm một thư mục migration mới. Áp dụng bằng `npx prisma migrate deploy`.
