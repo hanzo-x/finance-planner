@@ -58,7 +58,7 @@ npx prisma db seed                  # tạo tài khoản demo + ~45 giao dịch 
 npm run dev                         # mở http://localhost:3000
 ```
 
-Đề môn học ghi `npx prisma migrate dev`; repo này dùng `npx prisma migrate deploy` vì hai file migration được viết tay (xem mục *Giới hạn đã biết*).
+Các bảng được tạo bằng `npx prisma migrate deploy` (áp dụng đúng các file trong `prisma/migrations/`). Hai file này được viết tay nên nếu dùng `npx prisma migrate dev` có thể gặp báo lệch (drift), xem mục *Giới hạn đã biết*.
 
 ### Biến môi trường
 
@@ -117,8 +117,20 @@ E2E bằng Playwright (`npx playwright test`): chưa có, xem *Checklist tính n
 - ✅ ≥ 8 unit test + ≥ 1 component test (xem `src/**/*.test.ts(x)`)
 - ✅ GitHub Actions CI: lint, typecheck, test, build (`.github/workflows/ci.yml`)
 - ✅ `AGENTS.md` có mục "Luật dự án", `AI_LOG.md`, `.env.example`
-- ❌ Playwright E2E (đề chỉ khuyến khích, chưa làm)
-- ❌ Chưa đo Lighthouse trên production (đã quét axe-core cục bộ, không còn lỗi mức nghiêm trọng)
+- ❌ Playwright E2E (chưa làm)
+- ✅ Lighthouse (Desktop) trên production: 95–100 ở cả 4 mục, xem mục *Lighthouse*; đã quét thêm axe-core cục bộ, không còn lỗi mức nghiêm trọng
+
+## Lighthouse
+
+Đo trên bản production bằng Chrome DevTools (Lighthouse 13.5.0), chế độ **Desktop**. Chưa đo chế độ Mobile.
+
+| Trang | Performance | Accessibility | Best Practices | SEO | Báo cáo |
+|---|---|---|---|---|---|
+| `/` (chưa đăng nhập) | 100 | 100 | 100 | 100 | [home.html](docs/lighthouse/home.html) |
+| `/login` | 100 | 100 | 100 | 100 | [login.html](docs/lighthouse/login.html) |
+| `/dashboard` (đăng nhập tài khoản demo) | 95 | 100 | 100 | 100 | [dashboard.html](docs/lighthouse/dashboard.html) |
+
+Các file báo cáo là HTML: tải về rồi mở bằng trình duyệt để xem đầy đủ.
 
 ## Quyết định kỹ thuật
 
@@ -133,7 +145,7 @@ E2E bằng Playwright (`npx playwright test`): chưa có, xem *Checklist tính n
 | Tắt `cacheComponents` (create-next-app 16.4 bật sẵn) | Mọi trang trong app đều là dữ liệu riêng của từng người dùng, không có gì để cache chung. |
 | `<select>` gốc của trình duyệt thay cho Radix Select | Dùng bàn phím/trình đọc màn hình/điện thoại tốt sẵn, gửi cùng `<form>` không cần code thêm. |
 | Prisma Client khởi tạo "lười" (`src/lib/prisma.ts`) | `next build` không cần có `DATABASE_URL`; dev không tạo thừa kết nối khi hot reload. |
-| Không dùng `dangerouslySetInnerHTML` | Theo "Luật dự án"; shadcn Chart gốc dùng nó để chèn style nên đã viết lại bằng CSS variable trên thuộc tính `style`. |
+| Không dùng `dangerouslySetInnerHTML` | Theo quy ước bảo mật trong `AGENTS.md`; shadcn Chart gốc dùng nó để chèn style nên đã viết lại bằng CSS variable trên thuộc tính `style`. |
 
 ## Giới hạn đã biết
 
@@ -144,7 +156,7 @@ E2E bằng Playwright (`npx playwright test`): chưa có, xem *Checklist tính n
 - Giao dịch định kỳ chỉ được ghi khi có người mở trang (không có tiến trình chạy ngầm); sửa khoản định kỳ chỉ áp dụng cho các lần ghi sau, và không sửa được ngày trong tháng / ngày bắt đầu (muốn đổi thì tạm dừng rồi tạo khoản mới). Dự báo "bao giờ đủ tiền" chỉ là ước tính tuyến tính từ thói quen gần đây, không phải cam kết.
 - Toàn bộ ảnh minh hoạ (`hero.png`, `og.png`, icon và 12 ảnh trong `public/images/`: `feature-*`, `auth-side`, `not-found`, `empty-*`, `step-*`) do Gemini tạo, đã khai báo trong `AI_LOG.md`; prompt tạo ảnh do sinh viên lưu riêng, không đưa vào repo.
 - `npm audit` báo 3 lỗ hổng mức cao trong gói `effect` đi kèm Prisma CLI (công cụ dòng lệnh, không chạy trong ứng dụng khi hoạt động). Chưa xử lý.
-- Chưa đo Lighthouse, chưa có Playwright E2E.
+- Chưa đo Lighthouse ở chế độ Mobile, chưa có Playwright E2E.
 
 ## Cấu trúc thư mục
 
@@ -155,6 +167,7 @@ src/components/      thành phần giao diện; ui/ là bộ nút, hộp thoại
 src/lib/             logic: dal.ts (đăng nhập), queries.ts (database), milestones.ts, recurring.ts, forecast.ts, trend.ts, insights.ts, dates.ts, csv.ts, schemas.ts...
 src/proxy.ts         chặn nhanh trang cần đăng nhập
 docs/screenshots/    ảnh chụp màn hình cho README
+docs/lighthouse/     báo cáo Lighthouse (HTML)
 ```
 
 ## Sử dụng AI
